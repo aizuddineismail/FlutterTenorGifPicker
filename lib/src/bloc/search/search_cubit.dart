@@ -11,8 +11,11 @@ class SearchCubit extends Cubit<SearchState> {
   String? next;
   final List<TenorData> results = [];
 
-
-  void search(String query, {String? next}) async {
+  void search(
+    String query, {
+    String? next,
+    int limit = 10,
+  }) async {
     if (next == null) {
       results.clear();
       emit(SearchLoading());
@@ -23,18 +26,18 @@ class SearchCubit extends Cubit<SearchState> {
         query: query,
         country: tenorMeta?.country,
         clientKey: tenorMeta?.clientKey,
+        contentFilter: tenorMeta?.contentFilter,
         locale: tenorMeta?.locale,
         mediaFilter: 'tinygif, gif',
-        limit: 10,
-        pos: next
+        limit: limit,
+        pos: next,
       ),
     );
 
     if (result.status) {
       this.next = result.data!.next;
       emit(SearchResult(results..addAll(result.data!.results)));
-    }
-    else {
+    } else {
       emit(SearchError(result.error));
     }
   }

@@ -14,11 +14,13 @@ class CategoriesCubit extends Cubit<CategoriesState> {
 
     final result = await tenorRepository.getCategories(
       TenorCategoryRequest(
-          key: tenorMeta!.apiKey,
-          country: tenorMeta?.country,
-          clientKey: tenorMeta?.clientKey,
-          locale: tenorMeta?.locale,
-          type: type),
+        key: tenorMeta!.apiKey,
+        country: tenorMeta?.country,
+        clientKey: tenorMeta?.clientKey,
+        contentFilter: tenorMeta?.contentFilter,
+        locale: tenorMeta?.locale,
+        type: type,
+      ),
     );
 
     if (result.status) {
